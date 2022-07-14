@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--Normal -->
+    <font
+        app:font="@font/proxima_nova_regular"
+        app:fontStyle="normal"
+        app:fontWeight="400" />
+    <!--Semi/Demi bold-->
+    <font
+        app:font="@font/proxima_nova_semibold"
+        app:fontStyle="normal"
+        app:fontWeight="600" />
+    <!--Bold-->
+    <font
+        app:font="@font/proxima_nova_bold"
+        app:fontStyle="normal"
+        app:fontWeight="700" />
+    <!--Normal Italic -->
+    <font
+        app:font="@font/proxima_nova_regular"
+        app:fontStyle="italic"
+        app:fontWeight="400" />
+    <!--Semi/Demi bold Italic-->
+    <font
+        app:font="@font/proxima_nova_semibold"
+        app:fontStyle="italic"
+        app:fontWeight="600" />
+    <!--Bold italic-->
+    <font
+        app:font="@font/proxima_nova_bold"
+        app:fontStyle="italic"
+        app:fontWeight="700" />
+</font-family>
