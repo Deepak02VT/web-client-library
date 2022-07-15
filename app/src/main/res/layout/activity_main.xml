@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ImageLoaderActivity">
+    tools:context=".ImageLoadingSampleActivity">
 
     <ImageView
         android:id="@+id/image_view_for_drawable"
@@ -37,7 +37,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
@@ -53,16 +52,15 @@
         android:id="@+id/image_view_for_file"
         android:layout_width="@dimen/dp_104"
         android:layout_height="@dimen/dp_104"
+        android:layout_marginTop="@dimen/dp_10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        android:layout_marginTop="@dimen/dp_10"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/images_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </androidx.appcompat.widget.LinearLayoutCompat>

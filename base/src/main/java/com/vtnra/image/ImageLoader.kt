@@ -20,7 +20,11 @@ import java.io.File
  *      enableCache(false)
  * }
  * */
-inline fun imageLoader(context: Context, imageFile: File, buildImageLoader: ImageLoaderBuilder.() -> Unit): ImageLoaderParam {
+inline fun imageLoader(
+    context: Context,
+    imageFile: File,
+    buildImageLoader: ImageLoaderBuilder.() -> Unit
+): ImageLoaderParam {
     val builder = ImageLoaderBuilder(context, imageFile)
     builder.buildImageLoader()
 
@@ -35,7 +39,11 @@ inline fun imageLoader(context: Context, imageFile: File, buildImageLoader: Imag
  *      enableCache(false)
  * }
  * */
-inline fun imageLoader(context: Context, imageUri: Uri, buildImageLoader: ImageLoaderBuilder.() -> Unit): ImageLoaderParam {
+inline fun imageLoader(
+    context: Context,
+    imageUri: Uri,
+    buildImageLoader: ImageLoaderBuilder.() -> Unit
+): ImageLoaderParam {
     val builder = ImageLoaderBuilder(context, imageUri)
     builder.buildImageLoader()
 
@@ -50,7 +58,11 @@ inline fun imageLoader(context: Context, imageUri: Uri, buildImageLoader: ImageL
  *      enableCache(false)
  * }
  * */
-inline fun imageLoader(context: Context, imageUrl: String?, buildImageLoader: ImageLoaderBuilder.() -> Unit): ImageLoaderParam {
+inline fun imageLoader(
+    context: Context,
+    imageUrl: String?,
+    buildImageLoader: ImageLoaderBuilder.() -> Unit
+): ImageLoaderParam {
     val builder = ImageLoaderBuilder(context, imageUrl)
     builder.buildImageLoader()
     return builder.load()
@@ -64,7 +76,11 @@ inline fun imageLoader(context: Context, imageUrl: String?, buildImageLoader: Im
  *      enableCache(false)
  * }
  * */
-inline fun imageLoader(context: Context, @DrawableRes imageRes: Int, buildImageLoader: ImageLoaderBuilder.() -> Unit): ImageLoaderParam {
+inline fun imageLoader(
+    context: Context,
+    @DrawableRes imageRes: Int,
+    buildImageLoader: ImageLoaderBuilder.() -> Unit
+): ImageLoaderParam {
     val builder = ImageLoaderBuilder(context, imageRes)
     builder.buildImageLoader()
 

@@ -29,7 +29,7 @@ private const val TAG = "image"
 )
 object ImageLoaderBridge {
 
-    fun load(imageParam: ImageLoaderParam){
+    fun load(imageParam: ImageLoaderParam) {
         val builder = Glide.with(imageParam.context).asDrawable()
         with(builder) {
             when {
@@ -54,17 +54,17 @@ object ImageLoaderBridge {
             }
         }
 
-        addListener(builder,imageParam)
+        addListener(builder, imageParam)
         checkForScaleType(builder, imageParam)
         checkForResize(builder, imageParam)
         checkForCache(builder, imageParam)
         checkForLoadingImage(builder, imageParam)
         checkForErrorImage(builder, imageParam)
-        checkForTransform(builder,imageParam)
+        checkForTransform(builder, imageParam)
         checkForImageView(builder, imageParam)
     }
 
-    private fun addListener(glide: RequestBuilder<Drawable>,imageParam: ImageLoaderParam) {
+    private fun addListener(glide: RequestBuilder<Drawable>, imageParam: ImageLoaderParam) {
         with(glide) {
             listener(object : RequestListener<Drawable> {
                 override fun onLoadFailed(
@@ -173,12 +173,11 @@ object ImageLoaderBridge {
     }
 
     private fun checkForTransform(glide: RequestBuilder<Drawable>, imageParam: ImageLoaderParam) {
-        if(imageParam.transformation == null){
+        if (imageParam.transformation == null) {
             return
         }
         with(glide) {
-            transform(CenterCrop(),Rotate(90))
+            transform(CenterCrop(), Rotate(90))
         }
     }
-
 }

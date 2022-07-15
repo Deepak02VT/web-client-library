@@ -13,13 +13,14 @@ import com.vtnetzwelt.reusable_component.databinding.ActivityMainBinding
 import com.vtnra.image.load
 import java.io.File
 
-class ImageLoaderActivity : AppCompatActivity() {
+class ImageLoadingSampleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
