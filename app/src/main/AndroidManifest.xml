@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Reusable_component">
 
         <activity
-            android:name=".OkhttpTestSampleActivity"
+            android:name=".WebClientTestSampleActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

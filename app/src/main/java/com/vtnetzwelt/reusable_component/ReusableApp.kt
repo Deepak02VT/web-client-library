@@ -6,6 +6,9 @@ import com.vtnra.webclient.WebClientConfiguration
 class ReusableApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        WebClientConfiguration.setUp(this, 60, false).config()
+        WebClientConfiguration.builder(this)
+                              .connectionTimeOut(60)
+                              .enableLogging(true)
+                              .config()
     }
 }

@@ -137,7 +137,10 @@ Add it to app level build.gradle:
 
 ``` 
 
- WebClientConfiguration.setUp(this,60,false).config()
+  WebClientConfiguration.builder(this)
+                        .connectionTimeOut(60)
+                        .enableLogging(true)
+                        .config()
 
 ```
 
@@ -220,14 +223,14 @@ Add it to app level build.gradle:
 
 ``` 
 
- WebClientConfiguration.setUp(this, 60, true).config() - if set then logging will enable 
+   .enableLogging(true) - if set then logging will enable 
 ```
 
 ## Connection time out for all HttpRequest
 
 ``` 
 
- WebClientConfiguration.setUp(this, connectionTimeOutInSec, true).config() - By default 10 sec 
+ .connectionTimeOut(60) - By default 10 sec 
 ```
 
 ## Header

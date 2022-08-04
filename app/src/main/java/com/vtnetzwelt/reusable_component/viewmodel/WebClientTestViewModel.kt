@@ -6,19 +6,21 @@ import com.vtnetzwelt.reusable_component.CreateProduct
 import com.vtnra.webclient.ResponseCallback
 import com.vtnra.webclient.WebConnect
 
+const val TAG = "web-client-view-model"
 
-class OkhttpActivityViewModel : ViewModel() {
+class WebClientTestViewModel : ViewModel() {
 
+    private val baseUrl = "https://fakestoreapi.com/products"
     fun testGetCallWithOutParameter() {
 
-        WebConnect.get().endPoint("https://fakestoreapi.com/products")
+        WebConnect.get().endPoint(baseUrl)
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
-                    Log.e("GetCallWithOutParameter", "onSuccess: ${data.toString()}")
+                    Log.e(TAG, "On GET method without parameter onSuccess: ${data.toString()}")
                 }
 
                 override fun onFailure(error: Throwable) {
-                    Log.e("GetCallWithOutParameter", "onFailure")
+                    Log.e(TAG, "On GET method without parameter onFailure")
                 }
 
             }).connect()
@@ -28,14 +30,14 @@ class OkhttpActivityViewModel : ViewModel() {
         val queryParam = HashMap<String, String>()
         queryParam["sort"] = "desc"
 
-        WebConnect.get(queryParam).endPoint("https://fakestoreapi.com/products")
+        WebConnect.get(queryParam).endPoint(baseUrl)
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
-                    Log.e("GetRequestWithParameter", "onSuccess: ${data.toString()}")
+                    Log.e(TAG, "GET method with parameter onSuccess: ${data.toString()}")
                 }
 
                 override fun onFailure(error: Throwable) {
-                    Log.e("GetRequestWithParameter", "onFailure")
+                    Log.e(TAG, "GET method with parameter onFailure")
                 }
 
             }).connect()
@@ -51,14 +53,14 @@ class OkhttpActivityViewModel : ViewModel() {
         )
 
 
-        WebConnect.post(data.toString()).endPoint("https://fakestoreapi.com/products")
+        WebConnect.post(data.toString()).endPoint(baseUrl)
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
-                    Log.e("PostCall", "onSuccess: ${data.toString()}")
+                    Log.e(TAG, "Post method onSuccess: ${data.toString()}")
                 }
 
                 override fun onFailure(error: Throwable) {
-                    Log.e("PostCall", "onFailure: ${error.printStackTrace()}")
+                    Log.e(TAG, "Post method onFailure: ${error.printStackTrace()}")
                 }
             }).connect()
     }
@@ -66,14 +68,14 @@ class OkhttpActivityViewModel : ViewModel() {
     fun testDeleteCall() {
         val productId = "6"
 
-        WebConnect.delete(productId).endPoint("https://fakestoreapi.com/products/")
+        WebConnect.delete(productId).endPoint("$baseUrl/")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
-                    Log.e("DeleteCall", "onSuccess: ${data.toString()}")
+                    Log.e(TAG, "Delete method onSuccess: ${data.toString()}")
                 }
 
                 override fun onFailure(error: Throwable) {
-                    Log.e("DeleteCall", "onFailure: ${error.printStackTrace()}")
+                    Log.e(TAG, "Delete method onFailure: ${error.printStackTrace()}")
                 }
 
             }).setConnectionTimeOut(70).connect()
@@ -89,14 +91,14 @@ class OkhttpActivityViewModel : ViewModel() {
         )
 
 
-        WebConnect.put(data.toString()).endPoint("https://fakestoreapi.com/products/7")
+        WebConnect.put(data.toString()).endPoint("$baseUrl/7")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
-                    Log.e("PutCall", "onSuccess: ${data.toString()}")
+                    Log.e(TAG, "Put Method onSuccess: ${data.toString()}")
                 }
 
                 override fun onFailure(error: Throwable) {
-                    Log.e("PutCall", "onFailure: ${error.printStackTrace()}")
+                    Log.e(TAG, "Put Method onFailure: ${error.printStackTrace()}")
                 }
 
             }).connect()

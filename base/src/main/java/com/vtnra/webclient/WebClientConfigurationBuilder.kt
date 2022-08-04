@@ -7,31 +7,17 @@ import android.content.Context
  * */
 
 class WebClientConfigurationBuilder() {
-    private lateinit var webClientConfigParam: WebClientConfigurationParam
+    private var webClientConfigParam: WebClientConfigurationParam = WebClientConfigurationParam()
 
     constructor(context:Context) : this() {
-        webClientConfigParam = WebClientConfigurationParam()
         webClientConfigParam.context = context
     }
 
-    constructor(context:Context,enableLog: Boolean) : this() {
-        webClientConfigParam = WebClientConfigurationParam()
-        webClientConfigParam.context = context
-        enableLogging(enableLog)
-    }
-
-    constructor(context: Context,connectionTimeout:Long,enableLog: Boolean) : this() {
-        webClientConfigParam = WebClientConfigurationParam()
-        webClientConfigParam.context = context
-        enableLogging(enableLog)
-        connectionTimeOut(connectionTimeout)
-    }
-
-    private fun connectionTimeOut(connectionTimeout:Long)=apply{
+    fun connectionTimeOut(connectionTimeout:Long)=apply{
         webClientConfigParam.connectTimeout = connectionTimeout
     }
 
-    private fun enableLogging(enableLog:Boolean)=apply{
+    fun enableLogging(enableLog:Boolean)=apply{
         webClientConfigParam.enableLog = enableLog
     }
 
