@@ -6,6 +6,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * To construct the web Api interface to consume the api using third party library OkhttpClient
@@ -14,11 +15,28 @@ import java.io.IOException
  * Currently using [okhttp3]
  * */
 object WebClientBridge {
+    private var client: OkHttpClient.Builder? = null
+
+    fun config(param: WebClientConfigurationParam) {
+        client = OkHttpClient().newBuilder().connectTimeout(param.connectTimeout, TimeUnit.SECONDS)
+            .addInterceptor(enableLogging(param))
+    }
+
+    private fun enableLogging(param: WebClientConfigurationParam): Interceptor {
+        val logging = HttpLoggingInterceptor()
+        if (param.enableLog)
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        else
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE)
+        return logging
+    }
+
     fun connect(webClientParam: WebClientParam) {
         val request = Request.Builder()
         addHeader(request, webClientParam)
         loadUrl(request, webClientParam)
-        buildRequestClient(request, webClientParam)
+        setApiConnectionTimeOut(webClientParam)
+        executeRequest(request, webClientParam)
     }
 
     private fun addHeader(request: Request.Builder, webClientParam: WebClientParam) {
@@ -37,7 +55,7 @@ object WebClientBridge {
             webClientParam.queryParameters?.forEach { (key, value) ->
                 httpBuilder.addQueryParameter(key, value)
             }
-           webClientParam.endPoint = httpBuilder.build().toString()
+            webClientParam.endPoint = httpBuilder.build().toString()
         }
     }
 
@@ -52,7 +70,7 @@ object WebClientBridge {
         if (webClientParam.requestData == null) {
             return
         }
-        webClientParam.endPoint =  webClientParam.endPoint+webClientParam.requestData
+        webClientParam.endPoint = webClientParam.endPoint + webClientParam.requestData
         request.delete()
     }
 
@@ -87,12 +105,18 @@ object WebClientBridge {
         request.url(webClientParam.endPoint)
     }
 
-    private fun buildRequestClient(request: Request.Builder, webClientParam: WebClientParam) {
-        val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+    private fun setApiConnectionTimeOut(webClientParam: WebClientParam) {
+        if (webClientParam.connectionTimeOut.toString() == "10") {
+            return
+        }
+        client?.connectTimeout(webClientParam.connectionTimeOut, TimeUnit.SECONDS)
+    }
 
-        val client = OkHttpClient().newBuilder().addInterceptor(logging).build()
-        client.newCall(request.build()).enqueue(object : Callback {
+    private fun executeRequest(request: Request.Builder, webClientParam: WebClientParam) {
+        if (client == null) {
+            return
+        }
+        client?.build()?.newCall(request.build())?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 webClientParam.responseCallback?.onFailure(e)
             }

@@ -10,10 +10,9 @@ import com.vtnra.webclient.WebConnect
 class OkhttpActivityViewModel : ViewModel() {
 
     fun testGetCallWithOutParameter() {
-        val headers = HashMap<String, String>()
-        headers["Accept"] = "application/json"
+
         WebConnect.get().endPoint("https://fakestoreapi.com/products")
-            .headers(headers).setResponseCallback(object : ResponseCallback {
+            .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e("GetCallWithOutParameter", "onSuccess: ${data.toString()}")
                 }
@@ -29,10 +28,8 @@ class OkhttpActivityViewModel : ViewModel() {
         val queryParam = HashMap<String, String>()
         queryParam["sort"] = "desc"
 
-        val headers = HashMap<String, String>()
-        headers["Accept"] = "application/json"
         WebConnect.get(queryParam).endPoint("https://fakestoreapi.com/products")
-            .headers(headers).setResponseCallback(object : ResponseCallback {
+            .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e("GetRequestWithParameter", "onSuccess: ${data.toString()}")
                 }
@@ -52,11 +49,9 @@ class OkhttpActivityViewModel : ViewModel() {
             "https://i.pravatar.cc",
             "electronic"
         )
-        val headers = HashMap<String, String>()
-        headers["Accept"] = "application/json"
+
 
         WebConnect.post(data.toString()).endPoint("https://fakestoreapi.com/products")
-            .headers(headers)
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e("PostCall", "onSuccess: ${data.toString()}")
@@ -70,10 +65,8 @@ class OkhttpActivityViewModel : ViewModel() {
 
     fun testDeleteCall() {
         val productId = "6"
-        val headers = HashMap<String, String>()
-        headers["Accept"] = "application/json"
 
-        WebConnect.delete(productId).endPoint("https://fakestoreapi.com/products/").headers(headers)
+        WebConnect.delete(productId).endPoint("https://fakestoreapi.com/products/")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e("DeleteCall", "onSuccess: ${data.toString()}")
@@ -83,7 +76,7 @@ class OkhttpActivityViewModel : ViewModel() {
                     Log.e("DeleteCall", "onFailure: ${error.printStackTrace()}")
                 }
 
-            }).connect()
+            }).setConnectionTimeOut(70).connect()
     }
 
     fun testPutCall() {
@@ -94,11 +87,9 @@ class OkhttpActivityViewModel : ViewModel() {
             "https://i.pravatar.cc",
             "electronic"
         )
-        val headers = HashMap<String, String>()
-        headers["Accept"] = "application/json"
+
 
         WebConnect.put(data.toString()).endPoint("https://fakestoreapi.com/products/7")
-            .headers(headers)
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e("PutCall", "onSuccess: ${data.toString()}")

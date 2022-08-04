@@ -14,11 +14,28 @@ class WebClientParam {
      */
     var headers: Map<String, String>? = null
 
-    var requestType:String? = null
+    /**
+     * Request type GET,PUT,POST,DELETE
+     */
+    var requestType: String? = null
 
-    var requestData:String? = null
+    /**
+     * Request data
+     */
+    var requestData: String? = null
 
-    var queryParameters : Map<String,String>? = null
+    /**
+     * Query parameters In GET request
+     */
+    var queryParameters: Map<String, String>? = null
 
-    var responseCallback:ResponseCallback? = null
+    /**
+     * Callbacks for success and failure
+     */
+    var responseCallback: ResponseCallback? = null
+
+    /**
+     * Http request time out
+     */
+    var connectionTimeOut: Long = 10
 }
