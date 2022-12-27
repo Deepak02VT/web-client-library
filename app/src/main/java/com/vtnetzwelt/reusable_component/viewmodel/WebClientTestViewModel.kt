@@ -10,10 +10,10 @@ const val TAG = "web-client-view-model"
 
 class WebClientTestViewModel : ViewModel() {
 
-    private val baseUrl = "https://fakestoreapi.com/products"
+    //private val baseUrl = "https://fakestoreapi.com/products"
     fun testGetCallWithOutParameter() {
 
-        WebConnect.get().endPoint(baseUrl)
+        WebConnect.get().endPoint("products")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e(TAG, "On GET method without parameter onSuccess: ${data.toString()}")
@@ -30,7 +30,7 @@ class WebClientTestViewModel : ViewModel() {
         val queryParam = HashMap<String, String>()
         queryParam["sort"] = "desc"
 
-        WebConnect.get(queryParam).endPoint(baseUrl)
+        WebConnect.get(queryParam).endPoint("products/")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e(TAG, "GET method with parameter onSuccess: ${data.toString()}")
@@ -53,7 +53,7 @@ class WebClientTestViewModel : ViewModel() {
         )
 
 
-        WebConnect.post(data.toString()).endPoint(baseUrl)
+        WebConnect.post(data.toString()).endPoint("products")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e(TAG, "Post method onSuccess: ${data.toString()}")
@@ -68,7 +68,7 @@ class WebClientTestViewModel : ViewModel() {
     fun testDeleteCall() {
         val productId = "6"
 
-        WebConnect.delete(productId).endPoint("$baseUrl/")
+        WebConnect.delete(productId).endPoint("products/")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e(TAG, "Delete method onSuccess: ${data.toString()}")
@@ -91,7 +91,7 @@ class WebClientTestViewModel : ViewModel() {
         )
 
 
-        WebConnect.put(data.toString()).endPoint("$baseUrl/7")
+        WebConnect.put(data.toString()).endPoint("products/7")
             .setResponseCallback(object : ResponseCallback {
                 override fun <T> onSuccess(data: T) {
                     Log.e(TAG, "Put Method onSuccess: ${data.toString()}")

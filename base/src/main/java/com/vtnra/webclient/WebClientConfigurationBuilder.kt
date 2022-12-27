@@ -21,6 +21,10 @@ class WebClientConfigurationBuilder() {
         webClientConfigParam.enableLog = enableLog
     }
 
+    fun baseUrl(baseUrl:String)=apply {
+        webClientConfigParam.baseUrl = baseUrl
+    }
+
     fun config(){
         WebClientBridge.config(webClientConfigParam)
     }

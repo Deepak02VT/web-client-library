@@ -16,10 +16,12 @@ import java.util.concurrent.TimeUnit
  * */
 object WebClientBridge {
     private var client: OkHttpClient.Builder? = null
+    private lateinit var baseUrl : String
 
     fun config(param: WebClientConfigurationParam) {
         client = OkHttpClient().newBuilder().connectTimeout(param.connectTimeout, TimeUnit.SECONDS)
             .addInterceptor(enableLogging(param))
+        baseUrl = param.baseUrl
     }
 
     private fun enableLogging(param: WebClientConfigurationParam): Interceptor {
@@ -102,7 +104,7 @@ object WebClientBridge {
         if (webClientParam.endPoint == "") {
             return
         }
-        request.url(webClientParam.endPoint)
+        request.url("$baseUrl${webClientParam.endPoint}")
     }
 
     private fun setApiConnectionTimeOut(webClientParam: WebClientParam) {

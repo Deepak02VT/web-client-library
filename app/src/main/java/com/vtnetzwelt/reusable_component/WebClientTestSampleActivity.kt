@@ -10,10 +10,10 @@ class WebClientTestSampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_okhttp_test_sample)
         val viewModel = ViewModelProvider(this)[WebClientTestViewModel::class.java]
-        viewModel.testGetCallWithOutParameter()
-        viewModel.testGetRequestWithParameter()
-        viewModel.testPostCall()
+       // viewModel.testGetCallWithOutParameter()
+        //viewModel.testGetRequestWithParameter()
+       /* viewModel.testPostCall()
         viewModel.testDeleteCall()
-        viewModel.testPutCall()
+        viewModel.testPutCall()*/
     }
 }

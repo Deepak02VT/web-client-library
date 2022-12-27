@@ -7,8 +7,9 @@ class ReusableApp : Application() {
     override fun onCreate() {
         super.onCreate()
         WebClientConfiguration.builder(this)
-                              .connectionTimeOut(60)
-                              .enableLogging(true)
-                              .config()
+            .baseUrl("https://fakestoreapi.com/")
+            .connectionTimeOut(60)
+            .enableLogging(true)
+            .config()
     }
 }
