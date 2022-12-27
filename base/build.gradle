@@ -57,10 +57,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-
                 groupId = 'com.github.Deepak02VT'
                 artifactId = 'web-client-library'
-                version = '0.1'
+                version = '0.3'
             }
         }
     }
