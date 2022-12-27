@@ -59,7 +59,7 @@ afterEvaluate {
                 from components.release
 
                 groupId = 'com.github.Deepak02VT'
-                artifactId = 'base'
+                artifactId = 'web-client-library'
                 version = '0.1'
             }
         }
