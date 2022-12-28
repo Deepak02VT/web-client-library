@@ -63,15 +63,15 @@ object WebClientBridge {
     }
 
     private fun postRequest(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.requestData == null) {
-            return
-        }
         if(webClientParam.isFormEncode){
-           val formBody =  FormBody.Builder()
+            val formBody =  FormBody.Builder()
             webClientParam.queryParameters?.forEach { (key, value) ->
                 formBody.add(key, value.toString())
             }
             request.post(formBody.build())
+            return
+        }
+        if (webClientParam.requestData == null) {
             return
         }
         webClientParam.requestData?.toRequestBody()?.let { request.post(it) }
