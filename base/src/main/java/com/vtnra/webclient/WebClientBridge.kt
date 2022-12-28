@@ -124,7 +124,14 @@ object WebClientBridge {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                webClientParam.responseCallback?.onSuccess(response)
+                if (response.isSuccessful) {
+                    webClientParam.responseCallback?.onSuccess(response.body?.string())
+                } else {
+                    webClientParam.responseCallback?.onSuccess<Response>(
+                        statusCode = response.code,
+                        message = response.message
+                    )
+                }
             }
         })
     }
