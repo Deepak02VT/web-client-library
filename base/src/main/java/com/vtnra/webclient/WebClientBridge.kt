@@ -8,6 +8,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
+
 /**
  * To construct the web Api interface to consume the api using third party library OkhttpClient
  * Intention to change only this class whenever there is a change in 3rd party library
@@ -55,7 +56,7 @@ object WebClientBridge {
         } else {
             val httpBuilder = webClientParam.endPoint.toHttpUrl().newBuilder()
             webClientParam.queryParameters?.forEach { (key, value) ->
-                httpBuilder.addQueryParameter(key, value)
+                httpBuilder.addQueryParameter(key, value.toString())
             }
             webClientParam.endPoint = httpBuilder.build().toString()
         }
@@ -63,6 +64,14 @@ object WebClientBridge {
 
     private fun postRequest(request: Request.Builder, webClientParam: WebClientParam) {
         if (webClientParam.requestData == null) {
+            return
+        }
+        if(webClientParam.isFormEncode){
+           val formBody =  FormBody.Builder()
+            webClientParam.queryParameters?.forEach { (key, value) ->
+                formBody.add(key, value.toString())
+            }
+            request.post(formBody.build())
             return
         }
         webClientParam.requestData?.toRequestBody()?.let { request.post(it) }

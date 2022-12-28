@@ -1,5 +1,6 @@
 package com.vtnra.webclient
 
+
 /**
  * Parameters for [WebClientBuilder]
  */
@@ -27,7 +28,7 @@ class WebClientParam {
     /**
      * Query parameters In GET request
      */
-    var queryParameters: Map<String, String>? = null
+    var queryParameters: Map<String, Any>? = null
 
     /**
      * Callbacks for success and failure
@@ -38,4 +39,7 @@ class WebClientParam {
      * Http request time out
      */
     var connectionTimeOut: Long = 10
+
+    var isFormEncode = false
+
 }

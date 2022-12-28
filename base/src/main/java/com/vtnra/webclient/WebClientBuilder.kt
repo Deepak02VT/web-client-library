@@ -15,9 +15,10 @@ class WebClientBuilder{
         webClientParam.requestData = requestData
     }
 
-    constructor(requestType: String?,queryParam:Map<String,String>){
+    constructor(requestType: String?,queryParam:Map<String,Any>,formEncoded:Boolean){
         webClientParam.requestType = requestType
         webClientParam.queryParameters  = queryParam
+        webClientParam.isFormEncode = formEncoded
     }
 
     fun endPoint(endpoint: String)=apply{
