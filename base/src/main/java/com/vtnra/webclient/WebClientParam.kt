@@ -31,15 +31,13 @@ class WebClientParam {
     var queryParameters: Map<String, Any>? = null
 
     /**
-     * Callbacks for success and failure
-     */
-    var responseCallback: ResponseCallback? = null
-
-    /**
      * Http request time out
      */
     var connectionTimeOut: Long = 10
 
+    /**
+     * Parameter used for to check post method query is form data or not
+     */
     var isFormEncode = false
 
 }

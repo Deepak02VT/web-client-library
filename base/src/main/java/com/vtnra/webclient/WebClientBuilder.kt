@@ -29,15 +29,11 @@ class WebClientBuilder{
         webClientParam.headers = headers
     }
 
-    fun setResponseCallback(responseCallback: ResponseCallback)=apply{
-        webClientParam.responseCallback = responseCallback
-    }
-
     fun setConnectionTimeOut(connectionTimeOut:Long)=apply {
         webClientParam.connectionTimeOut = connectionTimeOut
     }
 
-    fun connect(){
-        WebClientBridge.connect(webClientParam)
+    fun <T> connect(responseCallback:ResponseCallback<T>){
+        WebClientBridge.connect(webClientParam,responseCallback)
     }
 }
