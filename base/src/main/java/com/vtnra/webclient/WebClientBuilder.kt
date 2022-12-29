@@ -33,7 +33,7 @@ class WebClientBuilder{
         webClientParam.connectionTimeOut = connectionTimeOut
     }
 
-    fun <T> connect(responseCallback:ResponseCallback<T>){
+    fun connect(responseCallback:ResponseCallback){
         WebClientBridge.connect(webClientParam,responseCallback)
     }
 }

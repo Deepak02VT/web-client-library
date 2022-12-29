@@ -39,5 +39,4 @@ class WebClientParam {
      * Parameter used for to check post method query is form data or not
      */
     var isFormEncode = false
-
 }

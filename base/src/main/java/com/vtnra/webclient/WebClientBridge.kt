@@ -1,8 +1,6 @@
 package com.vtnra.webclient
 
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -36,7 +34,7 @@ object WebClientBridge {
         return logging
     }
 
-    fun <T> connect(webClientParam: WebClientParam,responseCallback: ResponseCallback<T>) {
+    fun connect(webClientParam: WebClientParam,responseCallback: ResponseCallback) {
         val request = Request.Builder()
         addHeader(request, webClientParam)
         loadUrl(request, webClientParam)
@@ -45,10 +43,11 @@ object WebClientBridge {
     }
 
     private fun addHeader(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.headers != null) {
-            webClientParam.headers?.forEach { (key, value) ->
-                request.addHeader(key, value)
-            }
+        if (webClientParam.headers == null) {
+            return
+        }
+        webClientParam.headers?.forEach { (key, value) ->
+            request.addHeader(key, value)
         }
     }
 
@@ -125,13 +124,14 @@ object WebClientBridge {
         client?.connectTimeout(webClientParam.connectionTimeOut, TimeUnit.SECONDS)
     }
 
-    private fun <T> executeRequest(
+    private fun executeRequest(
         request: Request.Builder,
-        responseCallback: ResponseCallback<T>
+        responseCallback: ResponseCallback
     ) {
         if (client == null) {
             return
         }
+
         client?.build()?.newCall(request.build())?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 responseCallback.onFailure(e)
@@ -139,11 +139,9 @@ object WebClientBridge {
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    val gson = Gson()
-                    val data = gson.fromJson<T>(response.body?.string(),object : TypeToken<T>() {}.type)
-                    responseCallback.onSuccess(data)
+                    responseCallback.onSuccess(response.body?.string())
                 } else {
-                    responseCallback.onSuccess(
+                    responseCallback.onSuccess<Response>(
                         statusCode = response.code,
                         message = response.message
                     )
