@@ -39,8 +39,9 @@ Add it to app level build.gradle:
 
 ``` 
 
- WebConnect.get().endPoint(endPointUrl)
-            .connect(object:ResponseCallback)
+ WebConnect.get()
+           .endPoint(endPointUrl)
+           .connect(object:ResponseCallback)
 
 ```
 
