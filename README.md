@@ -16,7 +16,7 @@ Add it to app level build.gradle:
 
 ```
   dependencies{
-       implementation project(':base')
+      implementation 'com.github.Deepak02VT:web-client-library:0.3.3'
     }
     
 ```
@@ -28,6 +28,7 @@ Add it to app level build.gradle:
 ``` 
 
   WebClientConfiguration.builder(this)
+                        .baseUrl(baseUrl) 
                         .connectionTimeOut(60)
                         .enableLogging(true)
                         .config()
@@ -38,8 +39,9 @@ Add it to app level build.gradle:
 
 ``` 
 
- WebConnect.get().endPoint(endPointUrl)
-            .connect()
+ WebConnect.get()
+           .endPoint(endPointUrl)
+           .connect(object:ResponseCallback)
 
 ```
 
@@ -49,7 +51,7 @@ Add it to app level build.gradle:
 
   WebConnect.get(queryParam)
             .endPoint(endPointUrl)
-            .connect()
+            .connect(object:ResponseCallback)
 
 ```
 
@@ -59,7 +61,7 @@ Add it to app level build.gradle:
 
   WebConnect.get(queryParam)
             .endPoint(endPointUrl)
-            .connect()
+            .connect(object:ResponseCallback)
 
 ```
 
@@ -69,7 +71,7 @@ Add it to app level build.gradle:
 
  WebConnect.post(data.toString())
            .endPoint(Url)
-           .connect()
+           .connect(object:ResponseCallback)
 
 ```
 
@@ -79,7 +81,7 @@ Add it to app level build.gradle:
 
   WebConnect.put(data)
             .endPoint(Url)           
-            .connect()
+            .connect(object:ResponseCallback)
 
 ```
 
@@ -89,7 +91,7 @@ Add it to app level build.gradle:
 
   WebConnect.delete(data)
             .endPoint(Url)
-            .connect()
+            .connect(object:ResponseCallback)
 ```
 
 ## Other methods
@@ -98,8 +100,8 @@ Add it to app level build.gradle:
 
 ``` 
 
- .setResponseCallback(object : ResponseCallback {
-                override fun <T> onSuccess(data: T) {
+ .connect(object : ResponseCallback {
+                override fun <T> onSuccess(data: T,sratusCode:int,errorMessage:String) {
                    
                 }
 
