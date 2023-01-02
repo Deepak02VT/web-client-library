@@ -16,7 +16,7 @@ Add it to app level build.gradle:
 
 ```
   dependencies{
-      implementation 'com.github.Deepak02VT:web-client-library:0.3.3'
+      implementation 'com.github.Deepak02VT:web-client-library:version_name'
     }
     
 ```
