@@ -2,9 +2,10 @@ package com.vtnra.webclient
 
 
 /**
- * Parameters for [WebClientBuilder]
+ * Parameters for [WebConnectBuilder]
  */
-class WebClientParam {
+class WebConnectParam {
+
     /**
      *Url End point
      */

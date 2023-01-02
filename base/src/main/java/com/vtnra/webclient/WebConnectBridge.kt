@@ -8,24 +8,23 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-
 /**
  * To construct the web Api interface to consume the api using third party library OkhttpClient
  * Intention to change only this class whenever there is a change in 3rd party library
  * so that client must not affect and even should not know the changes behind the scene
  * Currently using [okhttp3]
  * */
-object WebClientBridge {
+object WebConnectBridge {
     private var client: OkHttpClient.Builder? = null
-    private lateinit var baseUrl : String
+    private lateinit var baseUrl: String
 
-    fun config(param: WebClientConfigurationParam) {
+    fun config(param: WebConnectConfigurationParam) {
         client = OkHttpClient().newBuilder().connectTimeout(param.connectTimeout, TimeUnit.SECONDS)
             .addInterceptor(enableLogging(param))
         baseUrl = param.baseUrl
     }
 
-    private fun enableLogging(param: WebClientConfigurationParam): Interceptor {
+    private fun enableLogging(param: WebConnectConfigurationParam): Interceptor {
         val logging = HttpLoggingInterceptor()
         if (param.enableLog)
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -34,16 +33,16 @@ object WebClientBridge {
         return logging
     }
 
-    fun connect(webClientParam: WebClientParam,responseCallback: ResponseCallback) {
+    fun connect(webClientParam: WebConnectParam, responseCallback: OnWebConnectCallback) {
         val request = Request.Builder()
         addHeader(request, webClientParam)
         loadUrl(request, webClientParam)
         setApiConnectionTimeOut(webClientParam)
-        executeRequest(request,responseCallback)
+        executeRequest(request, responseCallback, webClientParam)
     }
 
-    private fun addHeader(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.headers == null) {
+    private fun addHeader(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.headers==null) {
             return
         }
         webClientParam.headers?.forEach { (key, value) ->
@@ -51,8 +50,8 @@ object WebClientBridge {
         }
     }
 
-    private fun getRequest(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.queryParameters == null) {
+    private fun getRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.queryParameters==null) {
             request.get()
         } else {
             val httpBuilder = webClientParam.endPoint.toHttpUrl().newBuilder()
@@ -63,37 +62,37 @@ object WebClientBridge {
         }
     }
 
-    private fun postRequest(request: Request.Builder, webClientParam: WebClientParam) {
-        if(webClientParam.isFormEncode){
-            val formBody =  FormBody.Builder()
+    private fun postRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.isFormEncode) {
+            val formBody = FormBody.Builder()
             webClientParam.queryParameters?.forEach { (key, value) ->
                 formBody.add(key, value.toString())
             }
             request.post(formBody.build())
             return
         }
-        if (webClientParam.requestData == null) {
+        if (webClientParam.requestData==null) {
             return
         }
         webClientParam.requestData?.toRequestBody()?.let { request.post(it) }
     }
 
-    private fun deleteRequest(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.requestData == null) {
+    private fun deleteRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.requestData==null) {
             return
         }
         webClientParam.endPoint = webClientParam.endPoint + webClientParam.requestData
         request.delete()
     }
 
-    private fun putRequest(request: Request.Builder, webClientParam: WebClientParam) {
-        if (webClientParam.requestData == null) {
+    private fun putRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.requestData==null) {
             return
         }
         webClientParam.requestData?.toRequestBody()?.let { request.put(it) }
     }
 
-    private fun loadUrl(request: Request.Builder, webClientParam: WebClientParam) {
+    private fun loadUrl(request: Request.Builder, webClientParam: WebConnectParam) {
         when (webClientParam.requestType?.lowercase()) {
             "get" -> {
                 getRequest(request, webClientParam)
@@ -111,14 +110,14 @@ object WebClientBridge {
                 // Method not supported
             }
         }
-        if (webClientParam.endPoint == "") {
+        if (webClientParam.endPoint=="") {
             return
         }
         request.url("$baseUrl${webClientParam.endPoint}")
     }
 
-    private fun setApiConnectionTimeOut(webClientParam: WebClientParam) {
-        if (webClientParam.connectionTimeOut.toString() == "10") {
+    private fun setApiConnectionTimeOut(webClientParam: WebConnectParam) {
+        if (webClientParam.connectionTimeOut.toString()=="10") {
             return
         }
         client?.connectTimeout(webClientParam.connectionTimeOut, TimeUnit.SECONDS)
@@ -126,24 +125,33 @@ object WebClientBridge {
 
     private fun executeRequest(
         request: Request.Builder,
-        responseCallback: ResponseCallback
+        responseCallback: OnWebConnectCallback,
+        webClientParam: WebConnectParam
     ) {
-        if (client == null) {
+        if (client==null) {
             return
         }
-
+        responseCallback.onResponse(WebConnectNetworkResponseState.Loading, webClientParam.endPoint)
         client?.build()?.newCall(request.build())?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                responseCallback.onFailure(e)
+                responseCallback.onResponse(
+                    WebConnectNetworkResponseState.Failure(e),
+                    webClientParam.endPoint
+                )
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
-                    responseCallback.onSuccess(response.body?.string())
+                    responseCallback.onResponse(
+                        WebConnectNetworkResponseState.Success(response.body?.string()),
+                        webClientParam.endPoint
+                    )
                 } else {
-                    responseCallback.onSuccess<Response>(
-                        statusCode = response.code,
-                        message = response.message
+                    responseCallback.onResponse(
+                        WebConnectNetworkResponseState.Error(
+                            response.code,
+                            response.message
+                        ), webClientParam.endPoint
                     )
                 }
             }
