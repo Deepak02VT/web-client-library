@@ -1,12 +1,7 @@
 package com.vtnetzwelt.reusable_component
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.JsonObject
-import com.vtnra.webclient.WebConnectNetworkResponseState
-import com.vtnra.webclient.OnWebConnectCallback
-import com.vtnra.webclient.WebConnect
 
 
 class WebClientTestSampleActivity : AppCompatActivity() {
@@ -14,7 +9,7 @@ class WebClientTestSampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_okhttp_test_sample)
 
-        val jsonObject = JsonObject()
+        /*val jsonObject = JsonObject()
         jsonObject.addProperty(
             "awsUserId",
             "7810a74e-0e0f-4edc-8be2-9d0ed95d65a4"
@@ -43,6 +38,6 @@ class WebClientTestSampleActivity : AppCompatActivity() {
                    }
                 }
             })
-        }
+        }*/
     }
 }
