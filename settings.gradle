@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "reusable_component"
 include ':app'
-include ':base'
+include ':webconnect'
