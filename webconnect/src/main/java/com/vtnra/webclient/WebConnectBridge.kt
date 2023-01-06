@@ -78,14 +78,31 @@ object WebConnectBridge {
     }
 
     private fun deleteRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.isFormEncode) {
+            val formBody = FormBody.Builder()
+            webClientParam.queryParameters?.forEach { (key, value) ->
+                formBody.add(key, value.toString())
+            }
+            request.delete(formBody.build())
+            return
+        }
         if (webClientParam.requestData==null) {
             return
         }
-        webClientParam.endPoint = webClientParam.endPoint + webClientParam.requestData
         request.delete()
+        webClientParam.endPoint = webClientParam.endPoint + webClientParam.requestData
+
     }
 
     private fun putRequest(request: Request.Builder, webClientParam: WebConnectParam) {
+        if (webClientParam.isFormEncode) {
+            val formBody = FormBody.Builder()
+            webClientParam.queryParameters?.forEach { (key, value) ->
+                formBody.add(key, value.toString())
+            }
+            request.put(formBody.build())
+            return
+        }
         if (webClientParam.requestData==null) {
             return
         }
