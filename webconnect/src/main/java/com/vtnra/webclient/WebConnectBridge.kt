@@ -1,22 +1,23 @@
 package com.vtnra.webclient
 
 
+import android.net.Uri
 import okhttp3.*
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 /**
- * To construct the web Api interface to consume the api using third party library OkhttpClient
+ * To construct the web Api methods for implementing the api using third party library OkhttpClient
  * Intention to change only this class whenever there is a change in 3rd party library
  * so that client must not affect and even should not know the changes behind the scene
  * Currently using [okhttp3]
  * */
+
 object WebConnectBridge {
     private var client: OkHttpClient.Builder? = null
-    private lateinit var baseUrl: String
+    private var baseUrl: String? = null
 
     fun config(param: WebConnectConfigurationParam) {
         client = OkHttpClient().newBuilder().connectTimeout(param.connectTimeout, TimeUnit.SECONDS)
@@ -54,11 +55,11 @@ object WebConnectBridge {
         if (webClientParam.queryParameters==null) {
             request.get()
         } else {
-            val httpBuilder = webClientParam.endPoint.toHttpUrl().newBuilder()
+            val uriBuilder = Uri.Builder().path(webClientParam.endPoint)
             webClientParam.queryParameters?.forEach { (key, value) ->
-                httpBuilder.addQueryParameter(key, value.toString())
+                uriBuilder.appendQueryParameter(key,value.toString())
             }
-            webClientParam.endPoint = httpBuilder.build().toString()
+            webClientParam.endPoint = uriBuilder.build().toString()
         }
     }
 
@@ -158,19 +159,11 @@ object WebConnectBridge {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    responseCallback.onResponse(
-                        WebConnectNetworkResponseState.Success(response.body?.string()),
-                        webClientParam.endPoint
-                    )
-                } else {
-                    responseCallback.onResponse(
-                        WebConnectNetworkResponseState.Error(
-                            response.code,
-                            response.message
-                        ), webClientParam.endPoint
-                    )
-                }
+                val responseData = ResponseData(response.code,response.body?.string(),response.isSuccessful,response.message)
+                responseCallback.onResponse(
+                    WebConnectNetworkResponseState.Success(responseData),
+                    webClientParam.endPoint
+                )
             }
         })
     }
