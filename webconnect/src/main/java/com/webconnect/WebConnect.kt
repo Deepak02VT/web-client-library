@@ -81,7 +81,8 @@ object WebConnect {
         requestData: Map<String, Any>,
         formEncode: Boolean, webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder(RequestType.POST, requestData.toString(), formEncode, endPoint)
+        val builder =
+            WebConnectBuilder(RequestType.POST, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -108,7 +109,8 @@ object WebConnect {
         formEncode: Boolean,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder(RequestType.DELETE, requestData.toString(), formEncode, endPoint)
+        val builder =
+            WebConnectBuilder(RequestType.DELETE, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -127,7 +129,8 @@ object WebConnect {
         formEncode: Boolean,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder(RequestType.PUT, requestData.toString(), formEncode, endPoint)
+        val builder =
+            WebConnectBuilder(RequestType.PUT, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 }

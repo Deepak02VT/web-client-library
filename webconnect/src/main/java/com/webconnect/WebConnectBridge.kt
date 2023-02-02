@@ -36,7 +36,10 @@ object WebConnectBridge {
         return logging
     }
 
-    inline fun <reified T> connect(webClientParam: WebConnectParam, responseCallback: OnWebConnectCallback<T>) {
+    inline fun <reified T> connect(
+        webClientParam: WebConnectParam,
+        responseCallback: OnWebConnectCallback<T>
+    ) {
         val request = Request.Builder()
         addHeader(request, webClientParam)
         loadUrl(request, webClientParam)
@@ -63,7 +66,7 @@ object WebConnectBridge {
         } else {
             val uriBuilder = Uri.Builder().path(webClientParam.endPoint)
             webClientParam.queryParameters?.forEach { (key, value) ->
-                uriBuilder.appendQueryParameter(key,value.toString())
+                uriBuilder.appendQueryParameter(key, value.toString())
             }
             webClientParam.endPoint = uriBuilder.build().toString()
         }
@@ -85,7 +88,7 @@ object WebConnectBridge {
     }
 
     private fun deleteRequest(request: Request.Builder, webClientParam: WebConnectParam) {
-        if(webClientParam.requestData==null){
+        if (webClientParam.requestData==null) {
             request.delete()
         }
         if (webClientParam.isFormEncode) {
@@ -122,13 +125,13 @@ object WebConnectBridge {
             RequestType.GET -> {
                 getRequest(request, webClientParam)
             }
-            RequestType.POST  -> {
+            RequestType.POST -> {
                 postRequest(request, webClientParam)
             }
-            RequestType.DELETE  -> {
+            RequestType.DELETE -> {
                 deleteRequest(request, webClientParam)
             }
-            RequestType.PUT  -> {
+            RequestType.PUT -> {
                 putRequest(request, webClientParam)
             }
             else -> {
@@ -148,7 +151,8 @@ object WebConnectBridge {
         client?.connectTimeout(webClientParam.connectionTimeOut, TimeUnit.SECONDS)
     }
 
-    @PublishedApi internal inline fun <reified T> executeRequest(
+    @PublishedApi
+    internal inline fun <reified T> executeRequest(
         request: Request.Builder,
         responseCallback: OnWebConnectCallback<T>,
         webClientParam: WebConnectParam
@@ -158,14 +162,18 @@ object WebConnectBridge {
         }
         val type = T::class.java
         responseCallback.onResponse(
-            Resource(WebConnectNetworkResponseState.Loading(),
-            webClientParam.endPoint)
+            Resource(
+                WebConnectNetworkResponseState.Loading(),
+                webClientParam.endPoint
+            )
         )
         client?.build()?.newCall(request.build())?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 responseCallback.onResponse(
-                    Resource(WebConnectNetworkResponseState.Failure(e),
-                    webClientParam.endPoint)
+                    Resource(
+                        WebConnectNetworkResponseState.Failure(e),
+                        webClientParam.endPoint
+                    )
                 )
             }
 
@@ -176,14 +184,19 @@ object WebConnectBridge {
                     val data = gson.fromJson(response.body?.string(), type)
                     val responseData = SuccessResponse(data, statusCode = response.code)
                     responseCallback.onResponse(
-                        Resource(WebConnectNetworkResponseState.Success(responseData),
-                        webClientParam.endPoint)
+                        Resource(
+                            WebConnectNetworkResponseState.Success(responseData),
+                            webClientParam.endPoint
+                        )
                     )
                 } else {
-                    val responseData = ErrorResponse(statusCode = response.code, message = response.message)
+                    val responseData =
+                        ErrorResponse(statusCode = response.code, message = response.message)
                     responseCallback.onResponse(
-                        Resource(WebConnectNetworkResponseState.Error(responseData),
-                        webClientParam.endPoint)
+                        Resource(
+                            WebConnectNetworkResponseState.Error(responseData),
+                            webClientParam.endPoint
+                        )
                     )
                 }
             }

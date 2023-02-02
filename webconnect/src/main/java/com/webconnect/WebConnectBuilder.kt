@@ -3,7 +3,7 @@ package com.webconnect
 /**
  * To build webclient parameters
  * */
-class WebConnectBuilder{
+class WebConnectBuilder {
     val webClientParam: WebConnectParam = WebConnectParam()
 
     constructor(requestType: String, endPoint: String) {
