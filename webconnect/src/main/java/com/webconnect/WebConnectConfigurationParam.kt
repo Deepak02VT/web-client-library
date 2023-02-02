@@ -1,4 +1,4 @@
-package com.vtnra.webclient
+package com.webconnect
 
 import android.content.Context
 

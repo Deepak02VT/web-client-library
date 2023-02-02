@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">reusable_component</string>
+    <string name="app_name">WebConnect Sample</string>
+    <string name="alert">Alert</string>
+    <string name="update_alert">Are you sure you want to update the user?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

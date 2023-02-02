@@ -1,5 +1,4 @@
-package com.vtnra.webclient
-
+package com.webconnect
 
 /**
  * Parameters for [WebConnectBuilder]

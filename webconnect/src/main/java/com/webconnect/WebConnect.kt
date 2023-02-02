@@ -1,5 +1,4 @@
-package com.vtnra.webclient
-
+package com.webconnect
 
 /**
  * To build web client builder and pass data to the related class
@@ -7,15 +6,15 @@ package com.vtnra.webclient
 object WebConnect {
 
     fun get(endPoint: String): WebConnectBuilder {
-        return WebConnectBuilder("get", endPoint)
+        return WebConnectBuilder(RequestType.GET, endPoint)
     }
 
     fun get(endPoint: String, queryParam: Map<String, String>): WebConnectBuilder {
-        return WebConnectBuilder("get", queryParam, false, endPoint)
+        return WebConnectBuilder(RequestType.GET, queryParam, endPoint)
     }
 
     fun post(endPoint: String, requestData: String): WebConnectBuilder {
-        return WebConnectBuilder("post", requestData, endPoint)
+        return WebConnectBuilder(RequestType.POST, requestData, endPoint)
     }
 
     fun post(
@@ -23,49 +22,39 @@ object WebConnect {
         requestData: Map<String, Any>,
         formEncode: Boolean
     ): WebConnectBuilder {
-        return WebConnectBuilder("post", requestData, formEncode, endPoint)
+        return WebConnectBuilder(RequestType.POST, requestData.toString(), formEncode, endPoint)
     }
 
     fun delete(endPoint: String, requestData: String): WebConnectBuilder {
-        return WebConnectBuilder("delete", requestData, endPoint)
+        return WebConnectBuilder(RequestType.DELETE, requestData, endPoint)
     }
 
-    /**
-     * Request type: Delete
-     * @param endPoint: API end point.
-     * @param requestData: Request data for the delete API
-     * @param formEncode: To check request data is form encode or String.
-     * @return [WebConnectBuilder]
-     */
     fun delete(
         endPoint: String,
         requestData: Map<String, Any>,
         formEncode: Boolean
     ): WebConnectBuilder {
-        return WebConnectBuilder("delete", requestData, formEncode, endPoint)
+        return WebConnectBuilder(RequestType.DELETE, requestData.toString(), formEncode, endPoint)
+    }
+
+    fun delete(endPoint: String): WebConnectBuilder {
+        return WebConnectBuilder(RequestType.DELETE, endPoint)
     }
 
     fun put(endPoint: String, requestData: String): WebConnectBuilder {
-        return WebConnectBuilder("put", requestData, endPoint)
+        return WebConnectBuilder(RequestType.PUT, requestData, endPoint)
     }
 
-    /**
-     * Request type: Delete
-     * @param endPoint: API end point.
-     * @param requestData: Request data for the delete API
-     * @param formEncode: To check request data is form encode or String.
-     * @return [WebConnectBuilder]
-     */
     fun put(
         endPoint: String,
         requestData: Map<String, Any>,
         formEncode: Boolean
     ): WebConnectBuilder {
-        return WebConnectBuilder("put", requestData, formEncode, endPoint)
+        return WebConnectBuilder(RequestType.PUT, requestData.toString(), formEncode, endPoint)
     }
 
     fun get(endPoint: String, webConnectBuilder: WebConnectBuilder.() -> Unit) {
-        val builder = WebConnectBuilder("get", endPoint)
+        val builder = WebConnectBuilder(RequestType.GET, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -74,7 +63,7 @@ object WebConnect {
         queryParam: Map<String, String>,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("get", queryParam, false, endPoint)
+        val builder = WebConnectBuilder(RequestType.GET, queryParam, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -83,7 +72,7 @@ object WebConnect {
         requestData: String,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("post", requestData, endPoint)
+        val builder = WebConnectBuilder(RequestType.POST, requestData, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -92,7 +81,7 @@ object WebConnect {
         requestData: Map<String, Any>,
         formEncode: Boolean, webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("post", requestData, formEncode, endPoint)
+        val builder = WebConnectBuilder(RequestType.POST, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -101,25 +90,25 @@ object WebConnect {
         requestData: String,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("delete", requestData, endPoint)
+        val builder = WebConnectBuilder(RequestType.DELETE, requestData, endPoint)
         builder.webConnectBuilder()
     }
 
-    /**
-     * When there is no required to use builder pattern instead use Kotlin DSL way
-     * Use case:
-     *  WebConnect.delete("products",requestData){
-     *      headers(header:HashMap<String,String>)
-     *      connect(object:OnWebConnectCallback)
-     *  }
-     * */
     fun delete(
         endPoint: String,
-        requestData:  Map<String, Any>,
+        webConnectBuilder: WebConnectBuilder.() -> Unit
+    ) {
+        val builder = WebConnectBuilder(RequestType.DELETE, endPoint)
+        builder.webConnectBuilder()
+    }
+
+    fun delete(
+        endPoint: String,
+        requestData: Map<String, Any>,
         formEncode: Boolean,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("delete", requestData,formEncode,endPoint)
+        val builder = WebConnectBuilder(RequestType.DELETE, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 
@@ -128,25 +117,17 @@ object WebConnect {
         requestData: String,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder = WebConnectBuilder("put", requestData, endPoint)
+        val builder = WebConnectBuilder(RequestType.PUT, requestData, endPoint)
         builder.webConnectBuilder()
     }
 
-    /**
-     * When there is no required to use builder pattern instead use Kotlin DSL way
-     * Use case:
-     *  WebConnect.put("products",requestData){
-     *      headers(header:HashMap<String,String>)
-     *      connect(object:OnWebConnectCallback)
-     *  }
-     * */
     fun put(
         endPoint: String,
         requestData: Map<String, Any>,
         formEncode: Boolean,
         webConnectBuilder: WebConnectBuilder.() -> Unit
     ) {
-        val builder =  WebConnectBuilder("put", requestData, formEncode, endPoint)
+        val builder = WebConnectBuilder(RequestType.PUT, requestData.toString(), formEncode, endPoint)
         builder.webConnectBuilder()
     }
 }

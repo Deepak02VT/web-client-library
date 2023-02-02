@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loader"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    android:padding="12dp"
+    android:progressTint="@color/teal_200"
+    android:progressTintMode="multiply"
+    android:secondaryProgressTint="@color/teal_200" />

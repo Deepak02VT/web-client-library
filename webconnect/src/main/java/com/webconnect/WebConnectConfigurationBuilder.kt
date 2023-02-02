@@ -1,11 +1,10 @@
-package com.vtnra.webclient
+package com.webconnect
 
 import android.content.Context
 
 /**
  * To build Global web client configuration parameters
- * */
-
+ */
 class WebConnectConfigurationBuilder() {
     private var webClientConfigParam: WebConnectConfigurationParam = WebConnectConfigurationParam()
 
